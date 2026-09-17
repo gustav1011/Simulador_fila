@@ -1,3 +1,6 @@
+import java.util.HashMap;
+import java.util.Map;
+
 public class Main {
 
     public static void main(String[] args) {
@@ -6,66 +9,45 @@ public class Main {
         long a = 214013;
         long c = 2531011;
         long m = 4294967296L;
-
         int quantidadeAleatorios = 100000;
 
-        // =========================
-        // G/G/1/5
-        // Chegada: 3 até 5
-        // Atendimento: 4 até 5
-        // =========================
+        GeradorAleatorio gerador = new GeradorAleatorio(seed, a, c, m, quantidadeAleatorios);
 
-        GeradorAleatorio gerador1 =
-                new GeradorAleatorio(
-                        seed,
-                        a,
-                        c,
-                        m,
-                        quantidadeAleatorios
-                );
+        RedeFilas rede = new RedeFilas(gerador);
 
-        SimuladorFila fila1 =
-                new SimuladorFila(
-                        gerador1,
-                        3,
-                        5,
-                        4,
-                        5,
-                        1,
-                        5
-                );
+        Map<Integer, Double> roteamentoFila1 = new HashMap<>();
+        roteamentoFila1.put(2, 1.0);
 
-        fila1.simular();
-        fila1.mostrarResultados();
+        Map<Integer, Double> roteamentoFila2 = new HashMap<>();
+        roteamentoFila2.put(-1, 1.0);
 
+        rede.adicionarFila(
+                "Fila 1",
+                1.0,
+                5.0,
+                4.0,
+                5.0,
+                2,
+                3,
+                true,
+                2.5,
+                roteamentoFila1
+        );
 
-        // =========================
-        // G/G/2/5
-        // Chegada: 3 até 5
-        // Atendimento: 4 até 5
-        // =========================
+        rede.adicionarFila(
+                "Fila 2",
+                0.0,
+                0.0,
+                1.0,
+                3.0,
+                1,
+                5,
+                false,
+                0.0,
+                roteamentoFila2
+        );
 
-        GeradorAleatorio gerador2 =
-                new GeradorAleatorio(
-                        seed,
-                        a,
-                        c,
-                        m,
-                        quantidadeAleatorios
-                );
-
-        SimuladorFila fila2 =
-                new SimuladorFila(
-                        gerador2,
-                        3,
-                        5,
-                        4,
-                        5,
-                        2,
-                        5
-                );
-
-        fila2.simular();
-        fila2.mostrarResultados();
+        rede.simular();
+        rede.mostrarResultados();
     }
 }

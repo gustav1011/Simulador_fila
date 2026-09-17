@@ -8,10 +8,22 @@ public class Evento
 
     private Tipo tipo;
     private double tempo;
+    private int filaId;
+    private boolean origemExterna;
 
     public Evento(Tipo tipo, double tempo) {
+        this(tipo, tempo, -1, false);
+    }
+
+    public Evento(Tipo tipo, double tempo, int filaId) {
+        this(tipo, tempo, filaId, false);
+    }
+
+    public Evento(Tipo tipo, double tempo, int filaId, boolean origemExterna) {
         this.tipo = tipo;
         this.tempo = tempo;
+        this.filaId = filaId;
+        this.origemExterna = origemExterna;
     }
 
     public Tipo getTipo() {
@@ -22,10 +34,18 @@ public class Evento
         return tempo;
     }
 
+    public int getFilaId() {
+        return filaId;
+    }
+
+    public boolean isOrigemExterna() {
+        return origemExterna;
+    }
+
     @Override
     public int compareTo(Evento outro) {
 
-        int comparacao = Double.compare( this.tempo,outro.tempo);
+        int comparacao = Double.compare(this.tempo, outro.tempo);
 
         if (comparacao != 0) {
             return comparacao;
@@ -42,6 +62,6 @@ public class Evento
             return 1;
         }
 
-        return 0;
+        return Integer.compare(this.filaId, outro.filaId);
     }
 }
